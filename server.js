@@ -25,16 +25,18 @@ app.post("/chat", async (req, res) => {
     });
 
     const data = await response.json();
-console.log(data);
+    console.log(data);
     res.json({ reply: data.response });
-
   } catch (error) {
-    res.status(500).json({ error: "Something went wrong" });
+    res
+      .status(500)
+      .json({
+        error: "Something went wrong",
+        error: error.message,
+        errors: error,
+      });
   }
 });
-
-
-
 
 const imagepig = ImagePig(process.env.IMAGEPIG_API_KEY);
 
@@ -60,19 +62,18 @@ app.get("/generate-image", async (req, res) => {
     res.setHeader("Content-Type", "image/jpeg");
 
     imageResponse.data.pipe(res);
-
   } catch (error) {
     console.error("ERROR:", error);
     res.status(500).json({ error: error.message });
   }
 });
 
-app.get("/health",(req,res)=>{
+app.get("/health", (req, res) => {
   return res.json({
-    message:"ok"
-  })
-})
+    message: "ok",
+  });
+});
 
-app.listen(3000,'0.0.0.0', () => {
+app.listen(3000, "0.0.0.0", () => {
   console.log("Backend running on http://localhost:3000");
 });
