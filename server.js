@@ -67,7 +67,11 @@ app.get("/generate-image", async (req, res) => {
   }
 });
 
-
+app.get("/health",(req,res)=>{
+  return res.json({
+    message:"ok"
+  })
+})
 
 app.listen(3000, () => {
   console.log("Backend running on http://localhost:3000");
