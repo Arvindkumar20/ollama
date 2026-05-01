@@ -5,7 +5,7 @@ import axios from "axios";
 import ImagePig from "imagepig";
 
 const app = express();
-app.use(cors());
+app.use(cors(""));
 app.use(express.json());
 
 app.post("/chat", async (req, res) => {
@@ -25,7 +25,7 @@ app.post("/chat", async (req, res) => {
     });
 
     const data = await response.json();
-
+console.log(data);
     res.json({ reply: data.response });
 
   } catch (error) {
@@ -40,7 +40,7 @@ const imagepig = ImagePig(process.env.IMAGEPIG_API_KEY);
 
 app.get("/generate-image", async (req, res) => {
   try {
-    const prompt = req.body;
+    const prompt = req.params.prompt;
 
     if (!prompt) {
       return res.status(400).json({ error: "Prompt is required" });
@@ -73,6 +73,6 @@ app.get("/health",(req,res)=>{
   })
 })
 
-app.listen(3000, () => {
+app.listen(3000,'0.0.0.0', () => {
   console.log("Backend running on http://localhost:3000");
 });
